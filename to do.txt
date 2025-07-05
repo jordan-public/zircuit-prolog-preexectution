@@ -1,0 +1,5 @@
+Quiestions:
+
+- When did Zircuit move to SP1?
+- What are the frequent quarantines? Examples?
+- Why OP? Any trace of optimistic?
