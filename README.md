@@ -59,10 +59,51 @@ The execution of the program starts with a query such as:
 ```
 ?- grandparent(X, enosh).
 ```
+which responds with:
+```
+X = adam
+```
+and we can ask for alternative solutions if there is more than one, but that is beyond the point of our discussion.
 
-which responds 
+Prolog as such is incomplete, as it's clauses are of the form:
+```
+A :- B, C, ...
+```
+cannot express everything first order predicate logic can. Kowalski (Kowalski, Robert. “Logic for Problem Solving.” Elsevier Science Ltd, 1979) has shown that any first order logic
+statement can be expressed as a set of so called "Horn Clauses" of the form:
+```
+A, B, ... :- C, D, ... 
+```
+Each such Horn Clause can be translated into the usual logic symbolic:
+
+$A \vee B \vee ... \Leftarrow C \wedge D \wedge ... $
+
+and each of these ```A, B, C, D``` is in the form of the Prolog predicates. To remedy
+this, Prolog introduces the ```!``` ("cut") operator which aborts the search for solution.
+Prolog performs its search for solution in a depth-first manner. This makes Prolog
+as expressible as First Order Predicate Logic under the assumption of "what we cannot
+prove is not true" inside its programs.
+
+So, for example "not" is defined as (not exactly correct Prolog syntax):
+```
+not(X) :- X, !, fail.
+```
+
+The execution of Prolog consists of the following:
+- **Unification** of terms such as ```x(a, X, Y)``` and ```x(Z, b, Y)``` resulting in ```x(a, b, Y)```.
+- **Searching** for match of the current predicate we are trying to match against clauses that define that predicate in the program.
+- **Abortion** of search in the current branch once the ```!``` operator is encountered.
+
+This represents a Turing-complete execution. Yet, this search can involve a lot of computation, as the Prolog programs include non-determinism as in the definition of ```parent(X, Y)``` above.
+
+It is important that the result of the Prolog execution can be expressed as **Execution Trace** which can be much smaller than the number of steps in the search, as it only
+contains the successful branch of the search. Note that in the Execution Trace the
+unsuccessful branches that lead to a failure after ```!``` have to be included as well. Yet, this does not impose excessive overhead. This part of the discussion can be expanded,
+but it is well known.
 
 ## Opportunity
+
+
 
 ## Problem
 
