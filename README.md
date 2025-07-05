@@ -142,35 +142,41 @@ AI Quarantine system. Otherwise, nothing else would be changed for the existing 
 - The off-chain execution proof has to be sent on-chain if it is used. For existing applications this is not needed, but applications that use this system would need to
 verify this proof in order to proceed.
 
+The new architecture would be:
+
 ![architecture]()
 
+There is absolutely no change to the existing system or deployed applications.
 
+In addition, new applications would be able to utilize Prolog for client-side computing,
+as well as submit the off-chain program upon deployment and execution trace upon each call
+for better indemnification of their behavior by the AI model.
 
-## Problem
+### Why is this easy to implement?
 
-Zircuit - quarantine
+The proposed architecture is very easy to implement. The reasons are:
+- The SP1 infrastructure already exists (or will exist in the upcoming version).
+- The new components are independent of the existing system.
 
-AI - unreliable / unpredictable
-I would be worried to lend in protocol where AI can block liquidations
+The Prolog implementation is relatively simple, and maybe an existing implementation can
+be adapted. A simple Prolog interpreter can be written in Prolog itself, which outputs the execution trace along with the result.
 
-Customizable Transaction Policies for Institutions - defeats purpose of crypto
-    fictitious court process
-    institutions misbehave
-    congress members misbehave
-Permissionless version of this would be OK
+The proving system is much simpler than the one for execution of the EVM:
+- There is no state because it executes on the client side. Consequently there are 
+no methods for fetching parts of the state from Merkle Tries, etc.
+- There is no large set of instructions.
 
-How about pre-deposits
+Here is the outline of the proving system:
+- The program can be stored in a directed graph of possible next clause to use for an
+uninstantiated predicate. Nodes can have out-degree larger than one, which corresponds
+to the non-determinism in the search for solution. In each step of the execution trace,
+there has to be a corresponding link in this graph.
+- For each step of the execution trace the **Unification** of terms (parameters) has to be
+checked (constrained). The unification takes 2 terms and replaces the uninstantiated variables on one side with potentially instantiated values on the other.
 
-- If human decides - back to square 1
-- If proof decides - OK ...
+Considering the simplicity of the above two operations, special SP1 "precompiles" can
+be developed for both graph path checking and term Unification. The only remaining part
+is looping through the execution trace.
 
-## Opportunity
-
-ZK Pre-computation
-Prolog -> Horn Clauses -> Trace Proof -> On-EVM verification (needed, or just aggregation?)
-
-## Proposed Solution
-
-Pre-execute: all inputs are constants, all read-only.
-ZK proof of pre-execute
+## Expected Results
 
