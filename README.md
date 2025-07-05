@@ -101,9 +101,14 @@ contains the successful branch of the search. Note that in the Execution Trace t
 unsuccessful branches that lead to a failure after ```!``` have to be included as well. Yet, this does not impose excessive overhead. This part of the discussion can be expanded,
 but it is well known.
 
+Just a curiosity note, a Non-deterministic Polynomial time problem (NP-time problem) is one for which there is an algorithm that can solve it using a non-deterministic machine in time
+bounded by a polynomial of it's input size. Yet the resulting solution can be checked by a deterministic machine in time polynomial of it's input size (P-time). If we feed the solution into a ZK prover such as zkSNARK or STARK, the proving time is bound by a polynomial time, so proving a ready execution trace is P-time for and NP-time problem.
+
 ## Opportunity
 
-
+Just like in Aleo we can split the execution of smart contracts in Zircuit in two parts:
+- Off-chain execution. No private variables would be used. Everything is public.
+- 
 
 ## Problem
 
