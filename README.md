@@ -159,7 +159,8 @@ The proposed architecture is very easy to implement. The reasons are:
 - The new components are independent of the existing system.
 
 The Prolog implementation is relatively simple, and maybe an existing implementation can
-be adapted. A simple Prolog interpreter can be written in Prolog itself, which outputs the execution trace along with the result.
+be adapted. It exists in JavaScript/TypeScript, and it can be adapted as a library that can be included and call within the application front ends.
+A simple Prolog interpreter can be written in Prolog itself, which outputs the execution trace along with the result.
 
 The proving system is much simpler than the one for execution of the EVM:
 - There is no state because it executes on the client side. Consequently there are 
@@ -181,6 +182,22 @@ be developed for table membership checking, term Unification, and stack implemen
 Note that Prolog needs 2 stacks (call stack + backtrack stack) for execution. However, 
 for checking of the execution trace it only needs one, as the non-determinism is already
 settled by the time we have a complete execution trace.
+
+The verification system is already there. There should already be an SP1 precompile
+for the EVM pairing function precompiles needed for the verifier. Most likely, there
+is already an SP1 precompile for proving a STARK verification into a SNARK proof.
+
+## Other Considerations
+
+Presently the off-chain calculations are done by the front-end, usually in JavaScript or
+TypeScript. As such they are hard to prove and compress, so consequently they cannot contain calculations that are trusted by the on-chain contracts. They can merely feed
+information to the contracts as input parameters and/or read the chain state via ```view``` functions.
+
+To convert JavaScript or TypeScript execution into a succinct proof is too complicated.
+However, EVM implementation and its execution proof generation already exists, as the blockchain needs it. Why wouldn't we
+adapt this implementation and use it off-chain? This is because the AI reasoning about sequential calculation post mortem would be very difficult. The Prolog execution trace,
+on the other hand, contains meaningful information. On top of that, the compression of
+non-deterministic calculation onto a ZK proof is much larger.
 
 ## Expected Results
 
