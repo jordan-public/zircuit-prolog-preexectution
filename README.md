@@ -204,5 +204,18 @@ adapt this implementation and use it off-chain? This is because the AI reasoning
 on the other hand, contains meaningful information. On top of that, the compression of
 non-deterministic calculation onto a ZK proof is much larger.
 
-## Expected Results
+## Expected Benefits
 
+### No changes to Existing Apps
+
+As the EVM is untouched, and the AI Quarantine
+sequencer system is unchanged, the existing applications would not see any change in behavior.
+
+### Reduction of Cost and Speedup
+
+As computation is offloaded from the blockchain, most of it's function would reduce to checking and state updates, all done using the usual EVM. Most of the computation would be done off-chain. And not only off-chain, but also off-proof, as the Prolog program does most of the solution searching to produce a relatively short execution trace. Only the execution trace is fed into the prover, and
+not the entire execution. This reduces the proving time significantly.
+
+### Quarantine system improvement
+
+As the Prolog execution trace contains meaningful calculations and constrain checks, the AI model can easily understand them, parse them and possibly quarantine more programs justifiably. For example, it could understand that wrapping large amounts of tokens and providing virtual liquidity could be a genuine function of an atomic liquidation program.
