@@ -187,6 +187,11 @@ The verification system is already there. There should already be an SP1 precomp
 for the EVM pairing function precompiles needed for the verifier. Most likely, there
 is already an SP1 precompile for proving a STARK verification into a SNARK proof.
 
+Note that the Prolog execution trace proving system does not have to execute in the same instance of SP1 as the Zircuit EVM. It could optionally be executed as one of the following:
+- Inside Zircuit SP1.
+- Inside SP1 on some prover infrastructure service.
+- On the client's computer.
+
 ## Other Considerations
 
 Presently the off-chain calculations are done by the front-end, usually in JavaScript or
