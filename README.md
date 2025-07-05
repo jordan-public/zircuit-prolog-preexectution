@@ -34,7 +34,7 @@ Let us look at [Aleo](https://developer.aleo.org/concepts/network/core_architect
 let us ignore the privacy aspect and assume that all computation is public.
 This compression of computation has been known for decades (reference needed), but let us look at it from the blockchain aspect.
 
-![aleoarch]()
+![aleoarch](./images/aleoarch.png)
 
 The programs in Aleo's language Leo have two parts for each entry point:
 
@@ -144,7 +144,7 @@ verify this proof in order to proceed.
 
 The new architecture would be:
 
-![architecture]()
+![architecture](./images/architecture.png)
 
 There is absolutely no change to the existing system or deployed applications.
 
