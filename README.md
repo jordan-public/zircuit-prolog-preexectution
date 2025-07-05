@@ -1,4 +1,4 @@
-# Zircuit Pre-execution
+# Zircuit Prolog Pre-execution
 
 ## Abstract
 
