@@ -163,20 +163,24 @@ be adapted. A simple Prolog interpreter can be written in Prolog itself, which o
 
 The proving system is much simpler than the one for execution of the EVM:
 - There is no state because it executes on the client side. Consequently there are 
-no methods for fetching parts of the state from Merkle Tries, etc.
+no methods for fetching parts of the state from Merkle-Patricia or Verkle Tries, etc.
 - There is no large set of instructions.
 
 Here is the outline of the proving system:
-- The program can be stored in a directed graph of possible next clause to use for an
-uninstantiated predicate. Nodes can have out-degree larger than one, which corresponds
-to the non-determinism in the search for solution. In each step of the execution trace,
-there has to be a corresponding link in this graph.
+- The program can be stored in an ordered table of clauses. Multiple clauses with same "head" (the left side; predicate) can exist for a single predicate, which stems from the
+non-determinism.
 - For each step of the execution trace the **Unification** of terms (parameters) has to be
 checked (constrained). The unification takes 2 terms and replaces the uninstantiated variables on one side with potentially instantiated values on the other.
+- As the matched head of a Prolog clause can have multiple terms on the right, they
+have to be pushed to a stack, popped when encountered in the execution trace and the
+final result should be an empty stack.
 
-Considering the simplicity of the above two operations, special SP1 "precompiles" can
-be developed for both graph path checking and term Unification. The only remaining part
-is looping through the execution trace.
+Considering the simplicity of the above operations, special SP1 "precompiles" can
+be developed for table membership checking, term Unification, and stack implementation. The only remaining part is looping through the execution trace and checking that at the end of the loop, the stack is empty.
+
+Note that Prolog needs 2 stacks (call stack + backtrack stack) for execution. However, 
+for checking of the execution trace it only needs one, as the non-determinism is already
+settled by the time we have a complete execution trace.
 
 ## Expected Results
 
