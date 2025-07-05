@@ -13,6 +13,21 @@ For full disclosure, I attempted to implement a simplified Prolog interpreter in
 
 ## Introduction
 
+### Quarantine
+
+The Zircuit blockchain runs an AI model for each transaction (and block) in order to determine if the transaction in malicious and not include it in the upcoming block, but
+instead quarantine it for further consideration.
+
+While Zircuit includes an AI-driven quarantine mechanism, it also offers Customizable Transaction Policies for KYC-verified institutions—allowing them to bypass those quarantine checks on transactions they initiate. Since blockchains were originally conceived to guard against the failings of institutions and governments, this feature risks undermining that very principle.
+
+In addition, protocols and users may fear quarantine even if it is extremely unlikely,
+as it is performed by trained models, which could conceivably err. A landing protocol
+or lender would not like to see genuine liquidations quarantined or even minimally
+delayed. A trader would not like to miss a stop-loss order because of quarantine, etc.
+
+This article proposes a more refined analysis of the incoming transactions to
+possibly improve this process.
+
 ### Pre-execution: the example of Aleo
 
 Let us look at [Aleo](https://developer.aleo.org/concepts/network/core_architecture), as an example of off-chain pre-computing. For the sake of this explanation
@@ -102,13 +117,34 @@ unsuccessful branches that lead to a failure after ```!``` have to be included a
 but it is well known.
 
 Just a curiosity note, a Non-deterministic Polynomial time problem (NP-time problem) is one for which there is an algorithm that can solve it using a non-deterministic machine in time
-bounded by a polynomial of it's input size. Yet the resulting solution can be checked by a deterministic machine in time polynomial of it's input size (P-time). If we feed the solution into a ZK prover such as zkSNARK or STARK, the proving time is bound by a polynomial time, so proving a ready execution trace is P-time for and NP-time problem.
+bounded by a polynomial of it's input size. Yet the resulting solution can be checked by a deterministic machine in time polynomial of it's input size (P-time). If we feed the solution into a ZK prover such as SNARK or STARK, the proving time is bound by a polynomial time, so proving a ready execution trace is P-time for and NP-time problem.
 
 ## Opportunity
 
 Just like in Aleo we can split the execution of smart contracts in Zircuit in two parts:
-- Off-chain execution. No private variables would be used. Everything is public.
-- 
+- Off-chain execution. No private variables would be used. Everything is public. The program would be defined in Prolog, which produces relatively short execution trace (P-size for NP-time problem). A succinct ZK proof would be generated in P-time, where the
+proof would be poly-log size for STARK proofs or even constant size if the STARK proof verification is proven in a SNARK proof.
+- On-chain execution. Same as usual EVM execution. At the beginning of the call, a verification of the proof of the off-chain execution would be performed. Then everything else is as usual. Yet majority of the on-chain computation can be offloaded off-chain.
+
+## Proposed Implementation
+
+No modification to the EVM part is needed at all. Users that take advantage of this
+system can simply put the verification of the proof in the first line.
+
+Here are some additions that are needed:
+- The Prolog program can optionally be stored on-chain, if it is to be utilized by the
+AI Quarantine system. For the sake of verification,
+the verifier (verification key, in alternative terminology) already represents a commitment to the off-chain Prolog program. However, we want to feed this program to the
+AI Quarantine model, along with the execution trace, so it can intelligently decide
+what the program does and if it is dangerous.
+- The off-chain execution trace can also be optionally sent on-chain. If so, it would improve the
+AI Quarantine system. Otherwise, nothing else would be changed for the existing applications.
+- The off-chain execution proof has to be sent on-chain if it is used. For existing applications this is not needed, but applications that use this system would need to
+verify this proof in order to proceed.
+
+![architecture]()
+
+
 
 ## Problem
 
