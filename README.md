@@ -102,6 +102,7 @@ prove is not true" inside its programs.
 So, for example "not" is defined as (not exactly correct Prolog syntax):
 ```
 not(X) :- X, !, fail.
+not(X).
 ```
 
 The execution of Prolog consists of the following:
