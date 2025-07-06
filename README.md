@@ -178,7 +178,7 @@ have to be pushed to a stack, popped when encountered in the execution trace and
 final result should be an empty stack.
 
 Considering the simplicity of the above operations, special SP1 "precompiles" can
-be developed for table membership checking, term Unification, and stack implementation. The only remaining part is looping through the execution trace and checking that at the end of the loop, the stack is empty.
+be developed for table membership checking, term Unification, and stack implementation. Besides some arithmetic operations, the only remaining part is looping through the execution trace and checking that at the end of the loop, the stack is empty.
 
 Note that Prolog needs 2 stacks (call stack + backtrack stack) for execution. However, 
 for checking of the execution trace it only needs one, as the non-determinism is already
@@ -188,7 +188,7 @@ The verification system is already there. There should already be an SP1 precomp
 for the EVM pairing function precompiles needed for the verifier. Most likely, there
 is already an SP1 precompile for proving a STARK verification into a SNARK proof.
 
-Note that the Prolog execution trace proving system does not have to execute in the same instance of SP1 as the Zircuit EVM. It could optionally be executed as one of the following:
+The Prolog execution trace proving system does not have to execute in the same instance of SP1 as the Zircuit EVM. It could optionally be executed as one of the following:
 - Inside Zircuit SP1.
 - Inside SP1 on some prover infrastructure service.
 - On the client's computer.
@@ -203,7 +203,7 @@ To convert JavaScript or TypeScript execution into a succinct proof is too compl
 However, EVM implementation and its execution proof generation already exists, as the blockchain needs it. Why wouldn't we
 adapt this implementation and use it off-chain? This is because the AI reasoning about sequential calculation post mortem would be very difficult. The Prolog execution trace,
 on the other hand, contains meaningful information. On top of that, the compression of
-non-deterministic calculation onto a ZK proof is much larger.
+non-deterministic calculation onto a ZK proof is significantly higher.
 
 ## Expected Benefits
 
