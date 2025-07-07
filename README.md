@@ -1,4 +1,4 @@
-[This project](https://ethglobal.com/showcase/zircuit-prolog-preex-wuwjk) won the following prize at the [ETHGlobal Cannes 2025](https://ethglobal.com/events/cannes) hackathon:
+[This proposal](https://ethglobal.com/showcase/zircuit-prolog-preex-wuwjk) won the following prize at the [ETHGlobal Cannes 2025](https://ethglobal.com/events/cannes) hackathon:
 
 🏆 [Zircuit - Best App Idea](https://ethglobal.com/showcase/zircuit-prolog-preex-wuwjk)
 
